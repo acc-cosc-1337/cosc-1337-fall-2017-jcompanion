@@ -21,3 +21,9 @@ bool isValidAmountWorked(int hours)
 	return hours >= 0 && hours <= 50;
 }
 
+double getGrossPay(double hours, double ot_hours, double pay_rate)
+{
+    double gross_pay = hours * pay_rate;
+
+    return gross_pay;
+}
