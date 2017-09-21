@@ -12,7 +12,7 @@ const double FIT = .15;
 const double FICA_SS = .062;
 const double FICA_MED = .0145;
 
-int _tmain(int argc, _TCHAR* argv[])
+int _main
 
 {
 	
