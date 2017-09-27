@@ -6,72 +6,80 @@
 
 
 using namespace std;
-const double MAX_HOURS = 40.0;
-const double MULTIPLIER = 1.5;
-const double FIT = .15;
-const double FICA_SS = .062;
-const double FICA_MED = .0145;
 
-int _main
+
+int _tmain(int argc, _TCHAR* argv[])
 
 {
 	
 
 		enum selection { hourly = 1, salary = 2 };
-		string name;
-		double hours = 0.0;
-		double pay_rate = 0.0;
-		double net_pay = 0.0;
-		double a_sal = 0.0;
-		double fit = 0.0;
-		double fica_ss = 0.0;
-		double fica_med = 0.0;
-		double gross_pay = 0.0;
-		double ot_pay = 0.0;
-		double sal_net = 0.0;
-		double sal_fit = 0.0;
-		double sal_ficass = 0.0;
-		double sal_ficamed = 0.0;
+		string name[EMPLOYEES];
+		double hours[EMPLOYEES] = { 0 };
+		double pay_rate[EMPLOYEES] = { 0 };
+		double net_pay[EMPLOYEES] = { 0 };
+		double a_sal[EMPLOYEES] = { 0 };
+		double fit[EMPLOYEES] = { 0 };
+		double fica_ss[EMPLOYEES] = { 0 };
+		double fica_med[EMPLOYEES] = { 0 };
+		double gross_pay[EMPLOYEES] = { 0 };
+		double ot_pay[EMPLOYEES] = { 0 };
+		double sal_net[EMPLOYEES] = { 0 };
+		double sal_fit[EMPLOYEES] = { 0 };
+		double sal_ficass[EMPLOYEES] = { 0 };
+		double sal_ficamed[EMPLOYEES] = { 0 };
 		int selection;
 		stringstream ss;
 
 
-		for (int i = 0; i < 3; i++)
+
+		for (int i = 0; i < EMPLOYEES; i++)
 		{
 
 
 			cout << "Enter your name: ";
-			cin >> name;
+			cin >> name[i];
 			cout << "Are you hourly (1) or salary (2): ";
 			cin >> selection;
 
 			if (selection == hourly)
 			{
 				cout << "Enter pay rate: ";
-				cin >> pay_rate;
-				cout << "Enter hours worked:  ";
-				cin >> hours;
-				while (!(isValidHourlyAmount(pay_rate)));
-				while (!(isValidAmountWorked(hours)));
-
-
-
-				if (hours <= MAX_HOURS)
+				cin >> pay_rate[i];
+				while (!(isValidPayRate(pay_rate[i])))
 				{
-					gross_pay = hours * pay_rate;
-					fica_ss = gross_pay * FICA_SS;
-					fica_med = gross_pay * FICA_MED;
+					cout << "Please enter valid hours worked..." << endl;
+					cout << "Enter pay rate: ";
+					cin >> pay_rate[i];
+				}
+				cout << "Enter hours worked:  ";
+				cin >> hours[i];
+				while (!(isValidHoursWorked(hours[i])))
+				{
+					cout << "Please enter a valid hourly wage..." << endl;
+					cout << "Enter hours worked:  ";
+					cin >> hours[i];
+				}
+
+
+
+
+				if (hours[i] <= MAX_HOURS)
+				{
+					gross_pay[i] = hours[i] * pay_rate[i];
+					fica_ss[i] = gross_pay[i] * FICA_SS;
+					fica_med[i] = gross_pay[i] * FICA_MED;
 				}
 				else
 				{
-					ot_pay = (hours - MAX_HOURS) * MULTIPLIER * pay_rate;
-					gross_pay = MAX_HOURS * pay_rate + ot_pay;
-					fica_ss = gross_pay * FICA_SS;
-					fica_med = gross_pay * FICA_MED;
+					ot_pay[i] = (hours[i] - MAX_HOURS) * MULTIPLIER * pay_rate[i];
+					gross_pay[i] = MAX_HOURS * pay_rate[i] + ot_pay[i];
+					fica_ss[i] = gross_pay[i] * FICA_SS;
+					fica_med[i] = gross_pay[i] * FICA_MED;
 				}
-				fit = gross_pay * FIT;
+				fit[i] = gross_pay[i] * FIT;
 
-				net_pay = (gross_pay + ot_pay) - (fit + fica_med + fica_ss);
+				net_pay[i] = (gross_pay[i] + ot_pay[i]) - (fit[i] + fica_med[i] + fica_ss[i]);
 
 
 				/*cout << "Thanks " << name << ", the number of hours you have worked is: " << hours << endl;
@@ -83,29 +91,37 @@ int _main
 				cout << "FICA medicare: " << fica_med << endl;
 				cout << "Net Pay: " << net_pay << endl;
 				*/
+					
+				
 			}
 
 			if (selection == salary)
 			{
 				
 				cout << "What did you make this year: ";
-				cin >> a_sal;
-				while (!(isValidSalaryAmount(a_sal)));
-				sal_net = a_sal - (a_sal * (FICA_MED + FICA_SS + FIT));
-				sal_fit = a_sal * FIT;
-				sal_ficass = a_sal * FICA_SS;
-				sal_ficamed = a_sal * FICA_MED;
-				/*cout << "Thanks " << name << endl;
-				cout << "Annual income: " << sal_net << endl;
-				cout << "Fedaral Income tax: " << sal_fit << endl;
-				cout << "FICA SS tax: " << sal_ficass << endl;
-				cout << "FICA medicare: " << sal_ficamed << endl;
-				cout << "Net pay: " << sal_net << endl;
-				*/
+				cin >> a_sal[i];
+				while (!(isValidSalaryAmount(a_sal[i])))
+				{
+					cout << "Please enter a valid salary..." << endl;
+					cout << "What did you make this year: ";
+					cin >> a_sal[i];
+				}
 
+					sal_net[i] = a_sal[i] - (a_sal[i] * (FICA_MED + FICA_SS + FIT));
+					sal_fit[i] = a_sal[i] * FIT;
+					sal_ficass[i] = a_sal[i] * FICA_SS;
+					sal_ficamed[i] = a_sal[i] * FICA_MED;
+					/*cout << "Thanks " << name << endl;
+					cout << "Annual income: " << sal_net << endl;
+					cout << "Fedaral Income tax: " << sal_fit << endl;
+					cout << "FICA SS tax: " << sal_ficass << endl;
+					cout << "FICA medicare: " << sal_ficamed << endl;
+					cout << "Net pay: " << sal_net << endl;
+					*/
+				
 			}
 
-			ss << setw(10) << name << setw(10) << hours << setw(10) << a_sal << setw(10) << pay_rate << setw(10) << fit << setw(10) << fica_ss << setw(10) << fica_med << setw(10) << gross_pay << setw(10) << sal_fit << setw(10) << sal_ficass << setw(10) << sal_ficamed << setw(10) << sal_net << setw(10) << net_pay << endl;
+			ss << setw(10) << name[i] << setw(10) << hours[i] << setw(10) << a_sal[i] << setw(10) << pay_rate[i] << setw(10) << fit[i] << setw(10) << fica_ss[i] << setw(10) << fica_med[i] << setw(10) << gross_pay[i] << setw(10) << sal_fit[i] << setw(10) << sal_ficass[i] << setw(10) << sal_ficamed[i] << setw(10) << sal_net[i] << setw(10) << net_pay[i] << endl;
 		}
 		cout << setw(10) << "Name" << setw(10) << "Hours" << setw(10) << "Salary" << setw(10) << "PayRate" << setw(10) << "FITHour" << setw(10) << "FICAHour" << setw(10) << "MedicareHour" << setw(10) << "HourlyPay" << setw(10) << "FITSalary" << setw(10) << "FICASalary" << setw(10) << "MedicareSalary" << setw(10) << "NetPaySalary" << setw(10) << "NetPayHour" << endl;
 		cout << ss.str();
