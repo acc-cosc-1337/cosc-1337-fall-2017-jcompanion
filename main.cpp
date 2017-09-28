@@ -8,7 +8,7 @@
 using namespace std;
 
 
-int _main()
+int main()
 
 {
 	
