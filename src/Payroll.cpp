@@ -1,5 +1,5 @@
 #include "Payroll.h"
-#include "stdafx.h"
+
 
 
 
